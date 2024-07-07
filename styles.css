@@ -1,0 +1,250 @@
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(217, 192, 240);
+	height: 100vh;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.container {
+    --transition-duration: .3s;
+    --tile-size: 65px;
+    --tile-real-size: 55px;
+    --num-cols: 5;
+    --num-rows: 7;
+
+    width: calc(var(--tile-size) * var(--num-cols));
+    height: calc(var(--tile-size) * var(--num-rows));
+    position: relative;
+    font-family: sans-serif;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.tile {
+    --bg-color: rgb(255, 62, 62);
+    width: var(--tile-real-size);
+    height: var(--tile-real-size);
+    background-color: var(--bg-color);
+    border-radius: 6px;
+
+    position: absolute;
+    display: grid;
+    place-items: center;
+    user-select: none;
+    z-index: 1;
+
+    top: calc(var(--i) * var(--tile-size));
+    left: calc(var(--j) * var(--tile-size));
+
+    transition: top var(--transition-duration) ease-in-out, left var(--transition-duration) ease-in-out, transform .08s;
+}
+.tile.spawn {
+    animation: spawn .3s ease-in-out forwards;
+}
+.tile:hover {
+    transform: scale(1.1);
+}
+.tile.active {
+    animation: rotate .8s ease-in-out forwards;
+}
+.tile.kill {
+    animation: kill .5s ease-in-out forwards;
+    pointer-events: none;
+}
+
+@keyframes spawn {
+    0% {
+        transform: scale(0);
+    }
+    95% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes kill {
+    0% {
+        transform: scale(1);
+    }
+    20% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(0);
+    }
+}
+
+.connection {
+    --connection-width: 7;
+    position: absolute;
+    top: calc(var(--sy) * var(--tile-size) + (var(--tile-real-size) / 2));
+    left: calc(var(--sx) * var(--tile-size) + (var(--tile-real-size) / 2));
+    width: calc(
+        var(--tile-size) *
+        sqrt(
+            (var(--sx) - var(--dx)) * (var(--sx) - var(--dx)) + (var(--sy) - var(--dy)) * (var(--sy) - var(--dy))
+        )
+    );
+    height: calc(1px * var(--connection-width));
+    transition: top var(--transition-duration) ease-in-out, left var(--transition-duration) ease-in-out, width var(--transition-duration) ease-in-out;
+}
+.connection::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(2, 2, 2);
+    transform-origin: top left;
+    transform:  rotate(calc(atan((var(--dy) - var(--sy)) / (var(--dx) - var(--sx)))));
+    transition: transform var(--transition-duration) ease-in-out;
+}
+
+.score-container #scr{
+    color: black;
+    font-size: 2em;
+    font-family: calibri;
+    font-weight: bolder;
+}
+.score-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-top: 2rem;
+}
+.score {
+    font-family: sans-serif;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 1.5rem;
+    letter-spacing: 4px;
+    animation: pop .3s linear forwards;
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(.3);
+    }
+    70% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+#score{
+    font-family: calibri;
+    color: black;
+    margin-left: 2%;
+    font-size:2em;
+    font-weight: bolder;
+}
+#exit{
+  height: 4rem;
+  width: auto;
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+}
+.modal-content {
+    background-color: #fefefe;
+    border-radius: 5%;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 300px;
+    text-align: center;
+    font-family: ink free;
+    font-weight: bolder;
+}
+.modal-button {
+    margin: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.modal-button.confirm {
+    border-radius: 5%;
+    font-family: ink free;
+    font-weight: bolder;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+.modal-button.cancel {
+    border-radius: 5%;
+    font-family: ink free;
+    font-weight: bolder;
+    background-color: #f44336;
+    color: white;
+    border: none;
+}
+
+.shake-img {
+    display: inline-block;
+    cursor: pointer; /* Indicates the image is clickable */
+}
+
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+.shake-animation {
+    animation: shake 0.5s ease-in-out;
+    animation-iteration-count: infinite;
+}
+
+.fall-down {
+    animation: fall 1s forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, target-densityDpi=device-dpi, minimal-ui">
+    <link rel="shortcut icon" href="icon.png" type="image/x-icon">
+    <title>2248 Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div>
+        <div class="score-container">
+            <p id="scr">Score:</p>
+            <h2 class="score" id="score">0</h2>
+            <img src="exit.png" id="exit" class="shake-img">
+        </div>
+        <div class="container"></div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <p>Are you sure you want to exit?</p>
+            <button class="modal-button confirm" id="confirmExit">Yes</button>
+            <button class="modal-button cancel" id="cancelExit">No</button>
+        </div>
+    </div>
+    <script src="./src/exit.js" type="module"></script>
+    <script src="./src/main.js" type="module"></script>
+
+</body>
+</html>
