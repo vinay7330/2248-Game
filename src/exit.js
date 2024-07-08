@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         setTimeout(() => {
                 window.location.href = "index.html";
-        }, 600);
+        }, 1000);
     });
 
     cancelButton.addEventListener('click', () => {

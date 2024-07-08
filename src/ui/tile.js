@@ -1,9 +1,6 @@
 import { TileColor } from "../game/color.js";
 import { numberRepresentation } from "../utils/math.js";
 
-// Note: please do not read this file if you care about your mental
-// Especially do not read how i am exposing the tile's events
-
 export class Tile {
     constructor(row, col, value, container, board) {
         this._row = row;
@@ -21,7 +18,6 @@ export class Tile {
         
         this._events = {
             "positionchange": [
-                // {callback, once, args, originalCallback, applied}
             ],
             "mousedown": [],
             "mouseup": [],
